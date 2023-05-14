@@ -28,6 +28,23 @@ def answer_about(message):
     log.info(f"ABOUT user_name=<{message.from_user.username}>, name=<{message.from_user.first_name}>")
 
 
+@bot.message_handler(commands=['tasks'])
+def tasks_message(message):
+    # создаем клавиатуру с ссылками на задания
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    url_button1 = telebot.types.InlineKeyboardButton(text="Living in a digital age",
+                                                     url="https://studopedia.ru/15_64022_The-digital-age.html")
+    url_button2 = telebot.types.InlineKeyboardButton(text="Living with computers",
+                                                     url="https://englishexercisesources.blogspot.com/2020/12/living"
+                                                         "-with-computers-professional.html")
+    keyboard.add(url_button1, url_button2)
+
+    # отправляем сообщение с клавиатурой
+    bot.send_message(chat_id=message.chat.id, text="Выбери тему текста", reply_markup=keyboard)
+    log.info(f"TASKS user_name=<{message.from_user.username}>, name=<{message.from_user.first_name}>, "
+             f"text=<{message.text}>")
+
+
 @bot.message_handler(commands=["englishwords"])
 def answer_english_words(message):
     nouns = "\n".join([f"🔻 {noun}" for noun in words["nouns"]])
